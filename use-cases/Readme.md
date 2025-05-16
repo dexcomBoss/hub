@@ -1,315 +1,158 @@
-# Clinical Hub Requirements
-
-## Study Management
-
-### 1. Create Study
-**Requirement:** The app shall allow a user to create a new clinical study with the following:
-- a unique name 
-- description 
-- duration
-- data collection frequency
-- participant thresholds
-- selected study-specific metrics.
-
-**Details:**
-- Study name must be unique within the site
-- Data collection frequency must be within valid ranges (e.g., every 5 minutes, every hour, 1 week)
-- Study-specific metrics must be selected from a pre-defined list
-- Study Admin must be logged into Clinical Hub app
-- New study is created with specified parameters upon successful validation
-
-**Source:** UC-1 Create Study
-
-### 2. Search Studies
-**Requirement:** The app shall provide a search bar that allows users to search for studies by:
-- Study name
-- Study ID
-- Site ID
-- Status (active/inactive)
-- Date range
-- Participant count
-
-**Details:**
-- Search results must update in real-time as user types
-- Search must support partial matches
-- Search must be case-insensitive
-- Results must be sortable by any searchable field
-- Search history must be maintained for quick access
-- Search must support advanced filtering options
-- Results must display key study information at a glance
-- Search must be accessible from any study management screen
-
-**Filtering Capabilities:**
-The app shall provide the following filtering options:
-1. Study Status
-   - Active
-   - Inactive
-   - Draft
-   - Completed
-   - Archived
-
-2. Time Period
-   - Start date range
-   - End date range
-   - Duration range
-   - Last modified date
-
-3. Participant Metrics
-   - Total participant count range
-   - Active participant count range
-   - Compliance rate range
-   - Dropout rate range
-
-4. Sensor Configuration
-   - Sensor type
-   - Number of sensors per participant
-   - Upload frequency range
-   - Data collection frequency
-
-5. Study Type
-   - Clinical trial
-   - Observational study
-   - Research study
-   - Pilot study
-
-6. Data Collection
-   - Data completeness percentage
-   - Last data upload date
-   - Data quality score
-   - Missing data threshold
-
-7. Location
-   - Site location
-   - Region
-   - Country
-   - Time zone
-
-**Filter Management:**
-- Filters must be combinable using AND/OR logic
-- Filter combinations must be savable as presets
-- Filter presets must be shareable with other users
-- Filters must be exportable for reporting
-- Filter history must be maintained
-- Filters must be resettable to defaults
-- Filter changes must be undoable
-
-**Source:** UC-1 Create Study
-
-### 1.1 Study Parameter Defaults
-**Requirement:** The app shall provide default values for study parameters as follows:
-
-#### General Study Parameters
-
-| Parameter | Description | Validation | Default | Status |
-|-----------|-------------|------------|---------|--------|
-| Study_ID | Represents the study ID provided for the participants | Up to 16 characters including letters, digits, and special characters<br>Examples: "PTL-1000353S002", "IIS-2021-056", "OUS 2020-027" | N/A | Mandatory |
-| Study_name | Unique identifier for the study | Must be unique within the site | N/A | Mandatory |
-| Site_ID | Represents the Site ID provided for the participants | Positive integer, up to 3 digits (leading zeros acceptable) | N/A | Mandatory |
-| Sensors_Max | Maximum number of sensors a participant can pair with in a trial | Positive integer up to 7 sensors | 6 | Optional |
-| Contact_Instructions | Message displayed to participants in the contact screen | Up to 500 characters including letters, digits, and special characters | "Find study staff contact information in your participant instructions." | Optional |
-
-#### Sensor Configurations
-
-##### G7 Logger Sensor
-
-| Parameter | Description | Validation | Default | Status |
-|-----------|-------------|------------|---------|--------|
-| type | Sensor type identifier | Must exactly match "logger" | N/A | Mandatory |
-| background_upload | Hours until background upload | Non-negative integer (hours), 0 means no auto download | N/A | Mandatory |
-| pstat_high | Upper bound for current readings | Any integer (Low < High) | N/A | Mandatory |
-| pstat_low | Lower bound for current readings | Any integer (Low < High) | N/A | Mandatory |
-| temp_high | Upper bound for temperature | Any integer (Low < High) | N/A | Mandatory |
-| temp_low | Lower bound for temperature | Any integer (Low < High) | N/A | Mandatory |
-| session_duration | Session length in hours | Non-negative integer (unlimited) | 360 | Optional |
-
-##### G7 Commercial Sensor
-
-| Parameter | Description | Validation | Default | Status |
-|-----------|-------------|------------|---------|--------|
-| type | Sensor type identifier | Must exactly match "g7 commercial" | N/A | Mandatory |
-| upload_freq | Upload frequency in hours | Non-negative integer (unlimited) | 24 | Optional |
-
-##### Proton Sensor
-
-| Parameter | Description | Validation | Default | Status |
-|-----------|-------------|------------|---------|--------|
-| type | Sensor type identifier | Must exactly match "proton" | N/A | Mandatory |
-| first_delay | Hours until first upload | Non-negative integer (capped at 24) | 24 | Optional |
-| download_freq | Download frequency in hours | Non-negative integer (capped at 24) | 2 | Optional |
-| pstat_high | Upper bound for current readings | Any integer (Low < High) | N/A | Mandatory |
-| pstat_low | Lower bound for current readings | Any integer (Low < High) | N/A | Mandatory |
-| temp_high | Upper bound for temperature | Any integer (Low < High) | N/A | Mandatory |
-| temp_low | Lower bound for temperature | Any integer (Low < High) | N/A | Mandatory |
-| session_duration | Session length in hours | Non-negative integer (unlimited) | 360 | Optional |
-| upload_freq | Upload frequency in hours | Non-negative integer (unlimited) | 24 | Optional |
-
-##### D1G7 Sensor
-
-| Parameter | Description | Validation | Default | Status |
-|-----------|-------------|------------|---------|--------|
-| type | Sensor type identifier | Must exactly match "d1g7" | N/A | Mandatory |
-| upload_freq | Upload frequency in hours | Non-negative integer (unlimited) | 24 | Optional |
-
-**Details:**
-- Defaults must be clearly visible during study creation
-- Defaults must be easily modifiable
-- Defaults must be validated against study requirements
-- Defaults must be configurable by system administrators
-- Defaults must be documented in the study creation interface
-- Sensor configurations must be validated against manufacturer specifications
-- Temperature and current reading bounds must be enforced for data quality
-- Upload frequencies must be configurable based on study requirements
-- All mandatory fields must be provided during study creation
-- Optional fields will use defaults if not specified
-
-**Source:** UC-1 Create Study
-
-### 3. Set Study Parameters
-**Requirement:** The app shall allow the Study Admin to set the study duration, data collection frequency.
-
-**Details:**
-- Data collection frequency must be within valid ranges
-- Participant thresholds must be reasonable and configurable
-- Changes must be validated before implementation
-
-**Source:** UC-1 Create Study
-
-## Participant Management
-
-
-
-### 5. Manage Study
-**Requirement:** The app shall allow the Study Admin to add, modify, and remove study sites for the study. (check with Bethan)
-
-**Details:**
-- Site names must be unique within study
-- Site configuration must be validated
-- Site status tracking required
-
-**Source:** UC-5 Manage Study Sites
-
-
-
-### 6. Monitor Compliance
-**Requirement:** The app shall provide participant compliance and engagement with the following information: 
-- sensor wear time (total amount of time participant has been wearing)
-- last uploads from each participant
-- data uploads missed / total uploads (study completion metric) (data capture rate) (check with Bethany)
-- start day and last day for each participant
-- drill down to troubleshoot more information about participant (firmware, last connection status, display device info, device model, Tx software number, Tx firmware number) (log if they did retry)
-- active wearables / expected wearables
-
-**Details:**
-- Real-time compliance tracking
-- Multiple compliance metrics
-- Automated alerts for non-compliance
-- Historical compliance data access
-
-**Source:** UC-3 Monitor Study Health
-
-### 7. Export Data
-**Requirement:** The app shall allow an admin to export collected study or site data in the following formats:
-- CSV
-- JSON
-- Excel
-
-
-**Details:**
-Kind of data from Accountability Log Various types of reports
-Accountability Log
-site id, participant number, sensor number, pairing code, sensor insertion, app insertion date, sensor stop date
-$$$ Check with Bethany
-
-**Source:** UC-7 Export Data
-
-
-### 8. Send Remote Commands
-**Requirement:** The app shall allow the Study Admin to send secure remote commands to a participant's Clinical App:
-- stop specific sensor
-- stop all sensors
-- force connect ??? $$$ check with Bethany
-- end a study for participant
-
-
-**Details:**
-- Secure command transmission
-- Rate limiting (1 command/minute/participant)
-- Command confirmation required
-- Command history tracking
-- Error handling for failed commands
-- Ideally when drilling down to participant
-
-**Source:** UC-6 Send Remote Command
-
-### 9. Configure Consent
-**Requirement:** The app shall allow an admin to configure their terms of service, usage, and technical support.
-
-**Details:**
-- Clear consent options
-- Easy consent management
-- Consent history tracking
-- Real-time consent status updates
-- Consent documentation
-
-**Source:** UC-9 Manage Consent
-
-## Survey Management
-
-### 10. Configure Surveys
-**Requirement:** The app shall allow the Study Admin to configure and manage study-specific surveys and questionnaires.
-
-**Details:**
-- Survey template management
-- Question customization
-- Response validation
-- Survey scheduling
-- Response tracking
-
-**Source:** UC-8 Survey Configure
-
-
-
-### 11. Monitor Sensor Status
-**Requirement:** The app shall monitor and display sensor connectivity status to the Study Admin, generating alerts for disconnections and enabling remote troubleshooting.
-
-**Details:**
-- Real-time status monitoring
-- Automated alerts
-- Remote troubleshooting capabilities
-- Status history tracking
-- Performance metrics
-
-### 12. Generate Audit Trails
-**Requirement:** The app shall generate and provide access to audit trails for all app activities to the Full Admin.
-
-**Details:**
-- Comprehensive activity logging
-- Secure audit trail storage
-- Access control for audit data
-- Export capabilities
-- Search and filter functionality
-
-
-
-
-
-### 15. Generate Regulatory Documentation
-**Requirement:** The app shall allow the Study Admin to generate regulatory documentation for serious adverse events (SAEs) and other compliance requirements.
-
-**Details:**
-- Standardized templates
-- Automated data population
-- Version control
-- Approval workflow
-- Export capabilities
-
-### 19. Logging
-**Requirement:** The app shall allow the Site Admin to log and track adverse events reported through the Clinical App.
-
-**Details:**
-- Capture event details
-- Record severity levels
-- Document follow-up actions
-- Generate automated alerts
-- Maintain event history
-
+| Field             | Details                                                                                                                                                                                                                                                           |
+| :---------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Use Case Name** | Create Study                                                                                                                                                                                                                                                                                      |
+| **Summary**       | Allows a Study Admin or Full Admin to create and configure a new clinical study via app.                                                                                                                                                                                                                                  |
+| **Actor**         | - Study Admin<br>- clinical-hub-app        <br>- data platform                                                                                                                                                                                                                                                                |
+| **UI/UX**         | - Study Creation Screen                                                                                                                                                                                                                                                                           |
+| **Constraint(s)** | - Study name must be unique string for site..<br>- Study-specific metrics must be selected from a pre-defined list. |
+| **Pre-condition(s)**| - Study Admin is logged into Clinical Hub app.                                                                                                                                                                                                                                                                       |
+| **Post-condition(s)**| - New study is created with the specified parameters.                                                                                                                                                                                 |
+| **Trigger**       | Study Admin initiates study creation from the Study Management screen.                                                                                                                                                                                                                              |
+| **Basic Flow**    | 1. Study Admin navigates to the Study Creation screen.<br>2. clinical-hub-app displays the Study Creation form.<br>3. Study Admin enters study details (name, description, duration, data collection frequency).<br>4. clinical-hub-app validates the entered information.<br>5. clinical-hub-app creates the new study with the specified parameters.<br>6. clinical-hub-app displays a confirmation message.<br>
+| **Alternate Flows**| None depicted in the wireframe.                                                                                                                                                                                                                                                                   |
+| **Exceptions**    | - Invalid input: clinical-hub-app displays an error message and prompts for correction.<br>- clinical-hub-app error: clinical-hub-app displays an error message and logs the error.                                                                                                                                                 |
+| **Additional Info**| Study-specific metrics can include glucose levels, insulin dosage, activity levels, etc. Data separation by study should be maintained.                                                                                                                                                               |
+| **Source**        | - The Study Admin needs the clinical-hub-app to create and configure new clinical studies, customizing parameters such as study duration, data collection frequency, participant thresholds, and study-specific metrics.<br>- The Study Admin needs the clinical-hub-app to configure study-specific metrics, such as glucose levels, insulin dosage, or activity levels, for data collection and analysis.<br>- The Study Admin needs the clinical-hub-app to set study duration, data collection frequency, and participant thresholds (e.g., minimum/maximum number of participants).<br>- Study Creation Screen |
+
+| Field             | Details                                                                                                                              |
+| :---------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| **Use Case Name** | Participant Invitation and Enrollment                                                                                                 |
+| **Summary**       | Describes the process of a Site Admin generating a QR code invitation and a Participant using it to enroll in a study.                |
+| **Actor**         | - Site Admin<br>- clinical-hub-app<br>- Participant                                                                                  |
+| **UI/UX**         | - Participant Management Screen (admin)<br>- Invitation Generation Screen (admin)<br>- Enrollment Portal (participant)                |
+| **Constraint(s)** | - QR code invitation is valid for a limited time (72 hours).<br>- QR code can only be used once.<br>- Participant must meet study-specific eligibility criteria.<br>- Maximum of 1000 participants per study. |
+| **Pre-condition(s)**| - Site Admin is logged in.<br>- Study exists.<br>- QR code invitation has been generated for potential participant. |
+| **Post-condition(s)**| - Participant is enrolled in the study.<br>- Participant receives confirmation of enrollment.<br>- Site Admin can view the new participant in the Participant Management screen. |
+| **Trigger**       | Site Admin generates and shares a QR code invitation with a potential participant, who then scans it to begin enrollment. |
+| **Basic Flow**    | **Site Admin:**<br>1. Site Admin navigates to the Participant Management screen.<br>2. Site Admin selects "Generate Invitation" for the study.<br>3. Site Admin chooses "QR Code" as the invitation method.<br>4. clinical-hub-app generates a unique, time-limited QR code.<br>5. Site Admin shares the QR code with the potential participant (prints, displays on screen, etc.).<br><br>**Participant:**<br>6. Participant scans the QR code using their mobile device.<br>7. Participant is directed to the study enrollment portal.<br>8. Participant reviews study information and consent documents.<br>9. Participant provides consent and completes required enrollment information.<br>10. clinical-hub-app validates participant information.<br>11. clinical-hub-app automatically assigns a unique Participant ID (UUID).<br>12. clinical-hub-app enrolls the participant in the study.<br>13. clinical-hub-app displays a confirmation message to the participant.<br>14. clinical-hub-app notifies the Site Admin of successful enrollment. |
+| **Alternate Flows**| **QR Code Expired:**<br>- At step 6, if the QR code has expired, participant sees an "Invitation Expired" message and is prompted to contact the study coordinator.<br><br>**Invitation Already Used:**<br>- At step 6, if the QR code has already been used, participant sees an "Invitation Already Claimed" message. |
+| **Exceptions**    | - Invalid input: clinical-hub-app displays an error message and prompts for correction.<br>- clinical-hub-app error: clinical-hub-app displays an error message and logs the error.<br>- Duplicate participant: clinical-hub-app displays an error message.<br>- Participant does not meet eligibility criteria: clinical-hub-app displays an error message.<br>- QR code scan failure: Participant is provided with alternative means to access the enrollment portal (manual URL entry). |
+| **Additional Info**| - Participant receives a digital confirmation of enrollment that can be saved for reference.<br>- Site Admin can track which invitations have been used and which are still pending.<br>- Participant can be enrolled in multiple studies using different QR codes.<br>- Historical participation data should be accessible to Site Admin. |
+| **Source**        | - The Site Admin needs the clinical-hub-app to generate secure, time-limited QR code invitations for potential participants.<br>- The Site Admin needs the clinical-hub-app to automatically assign unique Participant IDs (UUIDs) upon participant enrollment, ensuring privacy and data integrity across studies.<br>- The Site Admin needs the clinical-hub-app to enroll participants in multiple studies, tracking information such as demographics, study progress, and compliance.<br>- Participants need a simple, accessible method to enroll in studies using mobile devices. |
+
+
+| Field             | Details                                                                                                                                                                                                                                                                                                                                                                                      |
+| :---------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Use Case Name** | Monitor Study Health and Status                                                                                                                                                                                                                                                                                                                                                                                             |
+| **Summary**       | Allows a Study Admin or Full Admin to view and monitor the overall health, status, and key metrics of clinical studies through the Clinical Hub App. This includes tracking participant engagement, data collection quality, and study progress indicators.                                                                                                                                                                                 |
+| **Actor**         | - Study Admin / Full Admin<br>- Clinical Hub App<br>- Backend System                                                                                                                                                                                                                                                                                                                                                        |
+| **UI/UX**         | - Study Dashboard Screen (Admin Interface)<br>- Study Health Metrics View<br>- Study Status Overview<br>- Participant Engagement Analytics<br>- Data Quality Monitoring Panel                                                                                                                                                                                                                                                                                                                                 |
+| **Constraint(s)** | - Real-time data updates must be available for critical metrics.<br>- Historical data must be accessible for trend analysis.<br>- Data visualization must be clear and actionable.<br>- Alerts must be configurable for critical thresholds.<br>- Access to detailed metrics must be role-based.<br>- Data must be aggregated and anonymized where appropriate.                                  |
+| **Pre-condition(s)**| - Admin is logged into the Clinical Hub App.<br>- Admin has appropriate permissions to view study metrics.<br>- Studies exist in the system.                                                                                                                                                                                                                                                                         |
+| **Post-condition(s)**| - Admin has viewed and analyzed study health metrics.<br>- Admin has identified any potential issues or areas of concern.<br>- Admin has taken necessary actions based on the data (if required).<br>- System has logged the monitoring session. |
+| **Trigger**       | Admin accesses the Study Dashboard from the Clinical Hub App.                                                                                                                                                                                                                                                                                                                                                                 |
+| **Basic Flow**    | 1. Admin navigates to the Study Dashboard in the Clinical Hub App.<br>2. Clinical Hub App retrieves study health data from the Backend System.<br>3. Clinical Hub App displays overview metrics for all studies the admin has access to.<br>4. Admin can:<br>    a. View overall study health scores<br>    b. Monitor participant engagement rates<br>    c. Check data collection quality metrics<br>    d. Review study progress against timelines<br>    e. Access detailed reports for specific studies<br>5. Admin can drill down into specific studies for more detailed metrics.<br>6. Clinical Hub App provides options to:<br>    a. Export reports<br>    b. Set up alerts for specific metrics<br>    c. Compare studies<br>    d. View historical trends |
+| **Alternate Flows**| - **Filtered View:** Admin can filter studies by status, date range, or specific metrics.<br>- **Custom Dashboard:** Admin can create and save custom dashboard views with preferred metrics.<br>- **Alert Management:** Admin can configure and manage alerts for specific study metrics.                                                                                           |
+| **Exceptions**    | - **Data Unavailable:** Clinical Hub App displays appropriate message when data cannot be retrieved.<br>- **Permission Denied:** Clinical Hub App restricts access to unauthorized metrics.<br>- **System Error:** Clinical Hub App displays error message and logs the issue when data cannot be displayed.                                                                                               |
+| **Additional Info**| - Health metrics may include:<br>    - Participant retention rates<br>    - Data collection completion rates<br>    - Protocol adherence metrics<br>    - Data quality scores<br>    - Study timeline progress<br>    - Resource utilization<br>- Alerts can be configured for:<br>    - Critical threshold breaches<br>    - Significant changes in metrics<br>    - Data quality issues<br>    - Participant engagement drops |
+| **Source**        | - Need for real-time study monitoring and health tracking<br>- Requirement for data-driven study management<br>- Industry best practices for clinical study oversight<br>- Need for proactive issue identification and resolution                                                                                                                                    | 
+
+| Field             | Details                                                                                                                                                                                                                                                                                                                                                                                      |
+| :---------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Use Case Name** | Generate Participant Invitation (Email or QR Code)                                                                                                                                                                                                                                                                                                                                                                                             |
+| **Summary**       | Allows a Study or Site Admin to generate a secure, unique invitation for a potential participant to join a specific study site. The invitation is delivered via a temporary email link or a QR code, which directs the participant to the Clinical Hub App (or relevant app store). This process minimizes direct association with PII during the initial invitation. Admins can track invitation status (e.g., accepted).                      |
+| **Actor**         | - Study Admin / Site Admin<br>- Backend System<br>- Potential Participant (receives invitation, uses Clinical Hub App)                                                                                                                                                                                                                                                                                                                          |
+| **UI/UX**         | - Participant Management Screen (Admin Interface within a specific Study/Site context)<br>- Invitation Generation Dialog/Screen (Admin Interface)<br>- Clinical Hub App (Participant-facing for enrollment and interaction)<br>- Invitation Status Dashboard (Admin Interface)                                                                                                                                                                   |
+| **Constraint(s)** | - Generated invitation links/tokens must be unique and time-limited (e.g., expire after 72 hours).<br>- Each token/link should be single-use.<br>- Email addresses, if used, should not be persistently stored in association with the token after sending, adhering to PII minimization principles.<br>- Backend System must track token status (generated, sent, opened, used, expired).<br>- Email links and QR codes must encode a secure deep link that opens the Clinical Hub App or directs to the appropriate app store if the app is not installed.<br>- Admin must be able to view the status of invitations through their interface. |
+| **Pre-condition(s)**| - Study Admin or Site Admin is logged in to the Admin Interface.<br>- A study and corresponding site exist.<br>- Admin has identified a potential participant to invite.                                                                                                                                                                                                                                                                  |
+| **Post-condition(s)**| **Email:**<br>   - A unique, temporary invitation token is generated by the Backend System.<br>   - A secure email containing a deep link (incorporating the token) is dispatched by the Backend System to the provided participant email address. The link targets the Clinical Hub App/App Store.<br>   - The token status is logged by the Backend System (e.g., generated, sent, expiry time).<br> **QR Code:**<br>   - A unique, temporary invitation token is generated by the Backend System.<br>   - A QR code encoding a deep link (incorporating the token) is generated and displayed to the Admin. The link targets the Clinical Hub App/App Store.<br>   - The token status is logged by the Backend System (e.g., generated, expiry time).<br>**General:**<br>   - Invitation status is updated and viewable by the Admin in their interface. |
+| **Trigger**       | Admin selects the option to invite a new participant for a specific study site within the Admin Interface.                                                                                                                                                                                                                                                                                                                                       |
+| **Basic Flow**    | 1. Admin navigates to the participant management section for a specific study site in the Admin Interface.<br>2. Admin initiates the "Invite Participant" action.<br>3. Backend System (via Admin Interface) prompts Admin to choose invitation method: Email or QR Code.<br>4. **If Email:**<br>    a. Admin securely provides the participant's email address.<br>    b. Backend System generates a unique, time-limited, single-use token/deep link.<br>    c. Backend System securely sends an invitation email containing the deep link (to Clinical Hub App/App Store) to the participant.<br>    d. Backend System confirms email dispatch to Admin (via Admin Interface) and logs token generation/sending.<br>5. **If QR Code:**<br>    a. Backend System generates a unique, time-limited, single-use token/deep link.<br>    b. Backend System generates a QR code encoding the deep link (to Clinical Hub App/App Store).<br>    c. Backend System displays the QR code to the Admin via the Admin Interface.<br>    d. Admin shares the QR code with the participant (e.g., print, display on screen).<br>    e. Backend System logs token/QR code generation.<br>6. (Participant action - outside this UC) Participant scans the QR code or clicks the link.<br>    a. The device attempts to open the Clinical Hub App or directs the user to the app store.<br>    b. Upon opening the app (after potential install), the app processes the token from the deep link to initiate the site-specific enrollment process.<br>    c. The Backend System validates the token and marks it as opened/used upon successful enrollment initiation, updating the status viewable by the Admin. |
+| **Alternate Flows**| - **Token Expiry:** If a participant tries to use an expired link/QR code, the Backend System (via the Clinical Hub App) prevents enrollment and informs them the invitation is no longer valid.<br>- **Token Already Used:** If a participant tries to use a link/QR code that has already been used, the Backend System (via the Clinical Hub App) prevents enrollment and informs them the invitation has already been claimed.                                                                                             |
+| **Exceptions**    | - **Invalid Email Address:** Backend System (via Admin Interface) displays an error if the email format is invalid.<br>- **Email Sending Failure:** Backend System notifies the Admin (via Admin Interface) of the failure and logs the error. The token might be reusable or a new one needs generation.<br>- **Backend System Error:** Backend System displays an error message (via Admin Interface or potentially Clinical Hub App if error occurs during participant flow) and logs the error during token/QR generation, email sending, or validation.                                                                    |
+| **Additional Info**| - This process decouples the initial invitation from direct PII storage in the Backend System logs.<br>- Participant PII is collected during the enrollment process within the Clinical Hub App, initiated via the link/QR code.<br>- The token tracking table (managed by Backend System) might include fields like `token_id`, `study_id`, `site_id`, `status` (generated, sent, opened, used, expired), `expires_at`, `created_at`, `used_at`, potentially `source_ip` or device info upon usage. |
+| **Source**        | - `clinical-hub/description.md`: Custom invitation links, temporary tokens, expiration tracking (`expires at`, `used`, `id`, `ip address`), QR code fallback, need for PII protection.<br>- Industry best practices for secure user invitation and onboarding via mobile apps.<br>- Requirement to enroll participants remotely and securely using a dedicated app.<br>- Need for Admins to track invitation lifecycle.                                                                       |
+| Field             | Details                                                                                                 |
+| :---------------- | :------------------------------------------------------------------------------------------------------ |
+| **Use Case Name** | Manage Study Sites                                                                                      |
+| **Summary**       | Allows a Study Admin to manage multiple study sites for a clinical study.                              |
+| **Actor**         | - Study Admin<br>- System                                                                               |
+| **UI/UX**         | - Study Management Screen<br>- Study Site Management Screen                                              |
+| **Constraint(s)** | - Maximum of 100 study sites per study.<br>- Site name must be unique within a study.                   |
+| **Pre-condition(s)**| - Study Admin is logged in.<br>- Study exists.                                                         |
+| **Post-condition(s)**| - Study sites are added/modified/removed.<br>- Study Admin is redirected to the Study Management screen. |
+| **Trigger**       | Study Admin initiates study site management from the Study Management screen.                         |
+| **Basic Flow**    | 1. Study Admin selects a study from the Study Management screen.<br>2. System displays the Study Site Management screen with existing study sites.<br>3. Study Admin adds a new study site:<br>   a. Study Admin clicks the "Add Site" button.<br>   b. System displays a form for entering site details.<br>   c. Study Admin enters site details (name, location, contact information).<br>   d. System validates the entered information.<br>   e. System adds the new study site to the study.<br>   f. System displays a confirmation message.<br>4. Study Admin modifies an existing study site:<br>   a. Study Admin selects a study site from the list.<br>   b. System displays a form with the site details.<br>   c. Study Admin modifies the site details.<br>   d. System validates the entered information.<br>   e. System updates the study site information.<br>   f. System displays a confirmation message.<br>5. Study Admin removes a study site:<br>   a. Study Admin selects a study site from the list.<br>   b. Study Admin clicks the "Remove Site" button.<br>   c. System displays a confirmation dialog.<br>   d. Study Admin confirms the removal.<br>   e. System removes the study site from the study.<br>   f. System displays a confirmation message.<br>6. Study Admin navigates back to the Study Management screen. |
+| **Alternate Flows**| None depicted in the wireframe.                                                                         |
+| **Exceptions**    | - Invalid input: System displays an error message and prompts for correction.<br>- System error: System displays an error message and logs the error. |
+| **Additional Info**| Study Admin can enroll participants, monitor data collection, and view site-specific metrics.           |
+| **Source**        | - The Study Admin needs the system to manage multiple study sites for geographically distributed research, including enrolling participants, monitoring data collection, and viewing site-specific metrics.<br>- Study Management Screen<br>- Study Site Management Screen | 
+| Field             | Details                                                                                                                                                  |
+| :---------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Use Case Name** | Send Remote Command                                                                                                                                      |
+| **Summary**       | Allows a Study Admin to send a secure remote command to a participant's Clinical App.                                                                    |
+| **Actor**         | - Study Admin<br>- Clinical Hub App<br>- Participant's Clinical App                                                                                                   |
+| **UI/UX**         | - Remote Command Screen                                                                                                                                  |
+| **Constraint(s)** | - Command must be one of the pre-defined commands (Force Connect Sensor, Stop Sensor, Stop All Sensors).<br>- Maximum of one command per minute per participant. |
+| **Pre-condition(s)**| - Study Admin is logged in.<br>- Participant is enrolled in the study.<br>- Participant's Clinical App is connected.                                            |
+| **Post-condition(s)**| - Command is sent and executed.<br>- Study Admin is redirected to the Participant Management screen.                                                        |
+| **Trigger**       | Study Admin initiates a remote command from the Participant Management screen.                                                                             |
+| **Basic Flow**    | 1. Study Admin selects a participant from the Participant Management screen.<br>2. Clinical Hub App displays the Remote Command screen.<br>3. Study Admin selects a command from the list.<br>4. Clinical Hub App securely transmits the command to the participant's Clinical App.<br>5. Participant's Clinical App receives and executes the command.<br>6. Clinical Hub App displays a confirmation message.<br>7. Clinical Hub App redirects the Study Admin to the Participant Management screen. |
+| **Alternate Flows**| None depicted in the wireframe.                                                                                                                          |
+| **Exceptions**    | - App not connected: Clinical Hub App displays an error message.<br>- Command execution failure: Clinical Hub App displays an error message and logs the error.<br>- Unauthorized access: Clinical Hub App blocks the request and logs the attempt. |
+| **Additional Info**| Security measures should prevent unauthorized access and ensure data integrity. Sensor connectivity status should be monitored.                                  |
+| **Source**        | - The Study Admin needs the Clinical Hub App to send secure remote commands to participants' Clinical App (e.g., Force Connect Sensor, Stop Sensor, Stop All Sensors), preventing unauthorized access and ensuring data integrity.<br>- The Study Admin needs the Clinical Hub App to monitor and display sensor connectivity status, providing alerts for disconnections and enabling remote troubleshooting.<br>- Remote Command Screen | 
+
+| Field             | Details                                                                                                                                                  |
+| :---------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Use Case Name** | Export Data                                                                                                                                              |
+| **Summary**       | Allows a Study Admin to export collected study data.                                                                                                     |
+| **Actor**         | - Study Admin<br>- clinical-hub-app                                                                                                                                |
+| **UI/UX**         | - Data Export Screen                                                                                                                                     |
+| **Constraint(s)**                                            |
+| **Pre-condition(s)**| - Study Admin is logged in.<br>- Study data is available.                                                                                                 |
+| **Post-condition(s)**| - Data is exported in the selected format.<br>- clinical-hub-app initiates a file download for the exported data in excel or csv.                                                |
+| **Trigger**       | Study Admin initiates data export from the Study Management screen.                                                                                      |
+| **Basic Flow**    | 1. Study Admin selects a study from the Study Management screen.<br>2. clinical-hub-app displays the Data Export screen.<br>3. Study Admin selects data export parameters (data range, format).<br>4. clinical-hub-app retrieves the requested data.<br>5. clinical-hub-app formats the data (CSV, JSON, XML, CDISC SDTM).<br>6. clinical-hub-app initiates a download of the exported file to the Study Admin's device.<br>7. clinical-hub-app displays a confirmation message. |
+| **Alternate Flows**| None depicted in the wireframe.                                                                                                                          |
+| **Exceptions**    | - Invalid parameters: clinical-hub-app displays an error message and prompts for correction.<br>- clinical-hub-app error: clinical-hub-app displays an error message and logs the error.<br>- No data available: clinical-hub-app displays a message indicating no data is available for the selected parameters.<br>- Export file size exceeds limit: clinical-hub-app displays an error message. |
+| **Additional Info**| Data can be exported for analysis and regulatory submissions.                                                                                              |
+| **Source**        | - The Study Admin needs the clinical-hub-app to export collected data in various formats (e.g., CSV, JSON, XML) for analysis.<br>- The Study Admin needs the clinical-hub-app to export study data in formats compatible with regulatory submissions (e.g., CDISC SDTM), facilitating compliance and reporting.<br>- Data Export Screen 
+
+| Field             | Details                                                                                                                                                                                                                                                                                         |
+| :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Use Case Name** | Configure Study Survey                                                                                                                                                                                                                                                                          |
+| **Summary**       | Allows a Study Admin to configure surveys to be presented to participants at specific points in a clinical study.                                                                                                                                                                               |
+| **Actor**         | - Study Admin<br>- System                                                                                                                                                                                                                                                                        |
+| **UI/UX**         | - Study Management Screen<br>- Survey Configuration Screen                                                                                                                                                                                                                                      |
+| **Constraint(s)** | - Maximum of 50 questions per survey.<br>- Survey timing options are limited to: Beginning of Study, End of Study, Beginning and End of Study.<br>- Comment section is optional.                                                                                                                   |
+| **Pre-condition(s)**| - Study Admin is logged in.<br>- A study exists.                                                                                                                                                                                                                                                |
+| **Post-condition(s)**| - Survey questions and configuration (timing, comment section) are saved for the selected study.<br>- The system is prepared to present the survey to participants according to the configuration.                                                                                              |
+| **Trigger**       | Study Admin selects the option to configure a survey for a specific study, typically from the Study Management screen.                                                                                                                                                                             |
+| **Basic Flow**    | 1. Study Admin selects a study and navigates to the Survey Configuration screen.<br>2. System displays options to create or modify the survey.<br>3. Study Admin defines survey questions (e.g., adds question text, selects question type).<br>4. Study Admin specifies when the survey should be administered (Beginning, End, Both).<br>5. Study Admin chooses whether to include a free-text comment section for participants.<br>6. Study Admin saves the survey configuration.<br>7. System validates and saves the configuration.<br>8. System displays a confirmation message.                               |
+| **Alternate Flows**| **Modifying an Existing Survey:**<br>   a. Study Admin selects an existing survey to modify.<br>   b. System loads the current configuration.<br>   c. Study Admin edits questions, timing, or comment section settings.<br>   d. Study Admin saves changes (follow steps 6-8 of Basic Flow). |
+| **Exceptions**    | - Invalid input (e.g., empty question text): System displays an error message and prompts for correction.<br>- System error during save: System displays an error message and logs the error.                                                                                                    |
+| **Additional Info**| - Supported question types might include multiple-choice, rating scales, and free text.<br>- The comment section allows participants to provide open-ended feedback.                                                                                                                            |
+| **Source**        | - Requirement to gather participant feedback via structured surveys.<br>- Need to configure survey content and timing per study.<br>- User Story: "As a Study Admin, I want to configure a survey for study participants so that I can collect specific feedback at the start and/or end of their participation." |
+
+| Field             | Details                                                                                                                                                  |
+| :---------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Use Case Name** | Manage Consent                                                                                                                                           |
+| **Summary**       | Allows a Participant to manage consent for app data usage.                                                                                               |
+| **Actor**         | - Participant<br>- System                                                                                                                                |
+| **UI/UX**         | - Data Consents Screen                                                                                                                                   |
+| **Constraint(s)** | - Consent changes can be made once per day.                                                                                                              |
+| **Pre-condition(s)**| - Participant is logged in.                                                                                                                              |
+| **Post-condition(s)**| - Consent preferences are updated.                                                                                                                       |
+| **Trigger**       | Participant accesses consent settings from the app settings.                                                                                             |
+| **Basic Flow**    | 1. Participant navigates to the Data Consents screen.<br>2. System displays current consent options (Send your data to Dexcom, Use Dexcom Clarity Software, Enable enhanced technical support services).<br>3. Participant selects/deselects consent options.<br>4. System saves the updated consent preferences.<br>5. System displays a confirmation message. |
+| **Alternate Flows**| None depicted in the wireframe.                                                                                                                          |
+| **Exceptions**    | - System error: System displays an error message and logs the error.                                                                                     |
+| **Additional Info**| Consent is required for features like data sharing, Clarity usage, and technical support. US users have these features enabled by default. OUS users are presented with the Data Consents screen upon signup. |
+| **Source**        | - The Participant needs the system to obtain and manage consent for app data usage, allowing participants to grant or revoke access to their data.<br>- Data Consents Screen | 
+
+| Field             | Details                                                                                                                                                  |
+| :---------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Use Case Name** | Role-Based Configuration                                                                                                                                 |
+| **Summary**       | Allows administrators to configure and manage different user roles (Site Admin, Study Admin, Dexcom Admin, Principal Investigator) with appropriate permissions in the Clinical Hub App. |
+| **Actor**         | - Clinical Hub App<br>- Site Admin<br>- Study Admin<br>- Dexcom Admin<br>- Principal Investigator                                                                 |
+| **UI/UX**         | - Role Management Screen<br>- Permission Configuration Screen<br>- User Assignment Screen                                                                 |
+| **Constraint(s)** | - Each user can only have one primary role<br>- Principal Investigator role is read-only<br>- Site Admin can only manage users within their site<br>- Study Admin can only manage users within their study<br>- Dexcom Admin has system-wide access<br>- Role changes require approval from a higher-level admin |
+| **Pre-condition(s)**| - User is logged in with appropriate admin privileges<br>- User has necessary permissions to manage roles<br>- User database is accessible and operational |
+| **Post-condition(s)**| - Role configuration is saved and applied<br>- Users are assigned appropriate permissions<br>- Audit log is updated with role changes |
+| **Trigger**       | Admin initiates role configuration or user assignment from the Admin Dashboard.                                                                           |
+| **Basic Flow**    | 1. Admin navigates to Role Management screen<br>2. Clinical Hub App displays current role configurations<br>3. Admin selects role to configure<br>4. Clinical Hub App displays permission options for selected role<br>5. Admin configures permissions<br>6. Admin assigns users to roles<br>7. Clinical Hub App validates changes<br>8. Clinical Hub App saves configuration<br>9. Clinical Hub App updates user permissions<br>10. Clinical Hub App displays confirmation message |
+| **Alternate Flows**| 1. Bulk User Assignment:<br>   - Admin selects multiple users<br>   - Admin assigns role to all selected users<br>   - Clinical Hub App validates and applies changes<br><br>2. Role Template Application:<br>   - Admin selects predefined role template<br>   - Clinical Hub App applies template permissions<br>   - Admin customizes as needed |
+| **Exceptions**    | - Invalid permission combination: Clinical Hub App displays error message<br>- Unauthorized role change attempt: Clinical Hub App blocks the request and logs the attempt<br>- Database error: Clinical Hub App displays error message and rolls back changes<br>- User not found: Clinical Hub App displays error message |
+| **Additional Info**| - Role Hierarchy:<br>  - Dexcom Admin (highest)<br>  - Study Admin<br>  - Site Admin<br>  - Principal Investigator (read-only)<br><br>- Permission Categories:<br>  - User Management<br>  - Study Configuration<br>  - Data Access<br>  - System Settings<br>  - Reporting<br><br>- Audit Requirements:<br>  - All role changes must be logged<br>  - Logs must include who made the change, when, and what was changed<br>  - Logs must be immutable |
+| **Source**        | - The Clinical Hub App needs to support different levels of administrative access for managing studies and participants<br>- The Clinical Hub App needs to ensure data security through proper role-based access control<br>- The Clinical Hub App needs to maintain an audit trail of all role and permission changes | 
